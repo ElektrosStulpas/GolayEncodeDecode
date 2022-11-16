@@ -7,7 +7,8 @@ class Matrices:
         self.I = self._generate_I()
         self.B = self._generate_B(full_B)
         self.G = self._generate_G()
-        self.H = self._generate_H()
+        if full_B:
+            self.H = self._generate_H()
 
     def get_G(self):
         return self.G
@@ -38,5 +39,7 @@ class Matrices:
     def _generate_G(self):
         return np.concatenate((self.I, self.B), axis=1)
 
+    # incorrect on encode due to 12x23 G structure
     def _generate_H(self):
+        # or just G.t
         return np.concatenate((self.I, self.B), axis=0)
