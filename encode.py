@@ -13,7 +13,7 @@ parser.add_argument("-out", "--outputFile", type=str,
 
 args = parser.parse_args()
 
-input_vector_array = read_vector_from_file(args.inputFile)
+input_vector_array = read_vector_from_file(args.inputFile, 12)
 
 matrices = Matrices(full_B=False)
 gen_matrix = matrices.get_G()
@@ -25,7 +25,7 @@ for input_vector_idx in range(len(input_vector_array)):
     encoded_vector_array.append(encoded_vector)
 
 if args.outputFile:
-    write_ndarray_to_file(encoded_vector, args.outputFile)
+    write_ndarray_to_file(encoded_vector_array, args.outputFile)
 else:
     write_ndarray_to_file(encoded_vector_array, "encoded_output.txt")
 

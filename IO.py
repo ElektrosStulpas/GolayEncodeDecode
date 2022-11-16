@@ -2,22 +2,22 @@ import sys
 import numpy as np
 
 
-def read_vector_from_file(filepath):
+def read_vector_from_file(filepath, vector_length):
     data_array = []
 
     with open(filepath) as f:
         full_vector_len = 0
         while True:
-            line = str(f.read(12))
+            line = str(f.read(vector_length))
             if not line:
                 break
 
             line_len = len(line)
             full_vector_len += line_len
 
-            if (line_len % 12) != 0:
+            if (line_len % vector_length) != 0:
                 print(
-                    f"Binary vector is not a multiple of 12, full vector len was {full_vector_len}, exiting")
+                    f"Binary vector is not a multiple of {vector_length}, full vector len was {full_vector_len}, exiting")
                 sys.exit()
 
             line_data = []
