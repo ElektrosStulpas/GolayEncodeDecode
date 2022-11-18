@@ -5,13 +5,12 @@ from IO import *
 from operations import vm_dot_mod_2
 
 parser = argparse.ArgumentParser()
-
 parser.add_argument("inputFile", type=str,
                     help="Input txt file containing binary vector of 12 multitude length")
 parser.add_argument("-out", "--outputFile", type=str,
                     help="Path where output file with encoded vector will be created. If none, encoded_output.txt will be created in the same directory as the script")
-
 args = parser.parse_args()
+
 
 input_vector_array = read_vector_from_file(args.inputFile, 12)
 

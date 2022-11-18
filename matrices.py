@@ -10,6 +10,9 @@ class Matrices:
         if full_B:
             self.H = self._generate_H()
 
+    def get_B(self):
+        return self.B
+
     def get_G(self):
         return self.G
 
