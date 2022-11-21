@@ -1,45 +1,26 @@
-import sys
-import argparse
 from IO import *
 import random
 
 
 def distort_array(array, p):
+    error_count = 0
+    error_buff = []
     for idx in range(len(array)):
         random.randint(0, 100)
 
         if random.randint(0, 100) <= p:
-            distorted_value = array[idx] + 1
-            array[idx] = distorted_value % 2
+            array[idx] = (array[idx] + 1) % 2
+            error_count += 1
+            error_buff.append(idx)
 
-    return array
-
-
-parser = argparse.ArgumentParser()
-parser.add_argument("inputFile", type=str,
-                    help="Input txt file containing encoded vector of 23 multitude length")
-parser.add_argument("p", type=int,
-                    help="Chance to distort number at every position in percents (should be provided as a number 0-100)")
-parser.add_argument("-out", "--outputFile", type=str,
-                    help="Path where output file with distorted encoded vector will be created. If none, distorted_encoded_output.txt will be created in the same directory as the script")
-args = parser.parse_args()
-
-p = args.p
-inputFilePath = args.inputFile
-outputFilePath = args.outputFile
+    return array, error_count, error_buff
 
 
-sent_vector_array = read_vector_from_file(inputFilePath, 23)
+def distort_vector_array(sent_vector_array, p):
+    vectors_error_info = []
+    for array_idx in range(len(sent_vector_array)):
+        sent_vector_array[array_idx], error_count, error_buff = distort_array(
+            sent_vector_array[array_idx], p)
+        vectors_error_info.append((error_count, error_buff))
 
-
-for array_idx in range(len(sent_vector_array)):
-    sent_vector_array[array_idx] = distort_array(
-        sent_vector_array[array_idx], p)
-
-
-if outputFilePath:
-    write_ndarray_to_file(sent_vector_array, outputFilePath)
-else:
-    write_ndarray_to_file(sent_vector_array, "distorted_encoded_output.txt")
-
-sys.exit()
+    return sent_vector_array, vectors_error_info

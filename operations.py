@@ -1,12 +1,12 @@
 import numpy as np
 
 
-def vm_dot_mod_2(vector, matrix, m, n):
+def vm_dot_mod_2(vector, matrix):
     res_vector = []
 
-    for m_col_idx in range(n):
+    for m_col_idx in range(matrix.shape[1]):
         temp_res = 0
-        for vec_idx in range(m):
+        for vec_idx in range(matrix.shape[0]):
             temp_res += vector[vec_idx]*matrix[vec_idx][m_col_idx]
             if temp_res % 2 == 0:
                 temp_res = 0

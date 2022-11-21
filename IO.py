@@ -36,3 +36,8 @@ def write_ndarray_to_file(ndarray, filepath):
             array = ndarray[array_idx].astype(int).astype(str)
             f.write("".join(array))
         f.close()
+
+
+def print_ndarray(ndarray):
+    for array in ndarray:
+        print(array.astype(int))

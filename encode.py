@@ -1,31 +1,17 @@
-import sys
-import argparse
-from matrices import Matrices
+from matrices import *
 from IO import *
 from operations import vm_dot_mod_2
 
-parser = argparse.ArgumentParser()
-parser.add_argument("inputFile", type=str,
-                    help="Input txt file containing binary vector of 12 multitude length")
-parser.add_argument("-out", "--outputFile", type=str,
-                    help="Path where output file with encoded vector will be created. If none, encoded_output.txt will be created in the same directory as the script")
-args = parser.parse_args()
+
+def encode_vector(vector, gen_matrix):
+    return vm_dot_mod_2(vector, gen_matrix)
 
 
-input_vector_array = read_vector_from_file(args.inputFile, 12)
+def encode_vector_array(vector_array):
+    gen_matrix = generate_G(False)
+    encoded_vector_array = []
+    for idx in range(len(vector_array)):
+        encoded_vector = encode_vector(vector_array[idx], gen_matrix)
+        encoded_vector_array.append(encoded_vector)
 
-matrices = Matrices(full_B=False)
-gen_matrix = matrices.get_G()
-
-encoded_vector_array = []
-for input_vector_idx in range(len(input_vector_array)):
-    encoded_vector = vm_dot_mod_2(
-        input_vector_array[input_vector_idx], gen_matrix, 12, 23)
-    encoded_vector_array.append(encoded_vector)
-
-if args.outputFile:
-    write_ndarray_to_file(encoded_vector_array, args.outputFile)
-else:
-    write_ndarray_to_file(encoded_vector_array, "encoded_output.txt")
-
-sys.exit()
+    return np.array(encoded_vector_array)
