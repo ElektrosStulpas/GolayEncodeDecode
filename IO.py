@@ -2,6 +2,35 @@ import sys
 import numpy as np
 
 
+def str_vec_to_int_array(vec):
+    line_data = []
+    for idx in range(len(vec)):
+        line_data.append(int(vec[idx]))
+
+    return np.array(line_data)
+
+
+def read_text_from_file(filepath):
+    text_buff = []
+
+    with open(filepath) as f:
+        text_buff = f.read()
+        f.close()
+
+    # convert all chars in text_buff to binary
+    buff = [bin(ord(x))[2:] for x in text_buff]
+    # convert all binary chars to one binary string
+    buff = "".join(buff)
+
+    buff = str_vec_to_int_array(buff)
+    if len(buff) % 12 != 0:
+        pad_size = 12 - len(buff) % 12
+        buff = np.concatenate((buff, np.zeros(pad_size)))
+
+    buff = np.reshape(buff, (-1, 12))
+    return buff
+
+
 def read_vector_from_file(filepath, vector_length):
     data_array = []
 
@@ -20,9 +49,7 @@ def read_vector_from_file(filepath, vector_length):
                     f"Binary vector is not a multiple of {vector_length}, full vector len was {full_vector_len}, exiting")
                 sys.exit()
 
-            line_data = []
-            for idx in range(line_len):
-                line_data.append(int(line[idx]))
+            line_data = str_vec_to_int_array(line)
             data_array.append(line_data)
 
         f.close()
