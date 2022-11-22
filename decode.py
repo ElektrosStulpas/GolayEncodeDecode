@@ -13,14 +13,12 @@ def find_u(word, mat_B, decode_mat):
     s = vm_dot_mod_2(word, decode_mat)
 
     if vector_weight(s) <= 3:
-        print("syndrome weight was <=3")
         u = np.concatenate((s, zeros_vec))
         return u
 
     for idx, vector in enumerate(mat_B):
         snb = vv_add_mod_2(s, vector)
         if vector_weight(snb) <= 2:
-            print("syndrome + bi weight was <=2")
             zeros_vec[idx] = 1
             u = np.concatenate((snb, zeros_vec))
             return u
@@ -29,14 +27,12 @@ def find_u(word, mat_B, decode_mat):
     sB = vm_dot_mod_2(s, mat_B)
 
     if vector_weight(sB) <= 3:
-        print("sB weight was <=3")
         u = np.concatenate((zeros_vec, sB))
         return u
 
     for idx, vector in enumerate(mat_B):
         sBnb = vv_add_mod_2(sB, vector)
         if vector_weight(sBnb) <= 2:
-            print("sB + bi weight was <=2")
             zeros_vec[idx] = 1
             u = np.concatenate((zeros_vec, sBnb))
             return u

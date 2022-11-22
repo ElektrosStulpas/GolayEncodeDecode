@@ -32,7 +32,7 @@ if mode == 'binaryFromTxt':
 elif mode == 'textFromTxt':
     input_vector_array, char_mask = read_from_file_TEXT(inputPath)
 elif mode == 'imageFromBmp':
-    print("placeholder")
+    input_vector_array, len_mask, img_shape = read_from_file_IMAGE(inputPath)
 
 
 # encode and show all vectors read from input file
@@ -40,8 +40,10 @@ encoded_vector_array = []
 if useEncoding:
     print("Encoding..")
     encoded_vector_array = encode_vector_array(input_vector_array)
-    print("Encoded vectors:")
-    print_ndarray(encoded_vector_array)
+    print("Encoding complete..")
+    if mode == 'binaryFromTxt':
+        print("Encoded vectors:")
+        print_ndarray(encoded_vector_array)
 
 
 # send through channel and output to file
@@ -52,12 +54,12 @@ if len(encoded_vector_array) > 0:
 else:
     distorted_vector_array, error_info = distort_vector_array(
         input_vector_array, p)
-
-print("Distorted vectors:")
-print_ndarray(distorted_vector_array)
+print("Distortion complete..")
 
 
 if mode == 'binaryFromTxt':
+    print("Distorted vectors:")
+    print_ndarray(distorted_vector_array)
     print("Number of errors and indexes where it happened for each array:")
     print(error_info)
     write_ndarray_to_file_VECTOR(
@@ -66,7 +68,7 @@ elif mode == 'textFromTxt':
     write_ndarray_to_file_TEXT(
         distorted_vector_array, char_mask, "distorted_output.txt")
 elif mode == 'imageFromBmp':
-    print("placeholder")
+    write_ndarray_to_file_IMAGE(distorted_vector_array, len_mask, img_shape)
 
 
 # decode vector and output to file
@@ -80,14 +82,15 @@ if useEncoding:
 
     print("Decoding..")
     decoded_vector_array = decode_vector_array(distorted_vector_array)
-    print("Decoded vectors:")
-    print_ndarray(decoded_vector_array)
+    print("Decoding complete..")
 
     if mode == 'binaryFromTxt':
+        print("Decoded vectors:")
+        print_ndarray(decoded_vector_array)
         write_ndarray_to_file_VECTOR(
             decoded_vector_array, "decoded_output.txt")
     elif mode == 'textFromTxt':
         write_ndarray_to_file_TEXT(
             decoded_vector_array, char_mask, "decoded_output.txt")
     elif mode == 'imageFromBmp':
-        print("placeholder")
+        write_ndarray_to_file_IMAGE(decoded_vector_array, len_mask, img_shape)
