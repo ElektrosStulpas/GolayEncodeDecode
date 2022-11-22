@@ -8,7 +8,7 @@ def distort_array(array, p):
     for idx in range(len(array)):
         random.randint(0, 100)
 
-        if random.randint(0, 100) <= p:
+        if random.randint(0, 100) < p:
             array[idx] = (array[idx] + 1) % 2
             error_count += 1
             error_buff.append(idx)
