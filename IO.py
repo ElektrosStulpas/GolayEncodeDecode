@@ -27,9 +27,12 @@ def read_string_from_file(filepath):
 
 
 # shows the provided image
-def show_image(img):
+def show_image(img, block):
+    plt.figure()
     plt.imshow(img)
-    plt.show()
+    plt.plot()
+    plt.show(block=block)
+    plt.pause(0.001)
 
 
 # given an array, applies a length mask to separate array elems by length
@@ -103,7 +106,7 @@ def bin_array_to_int(array):
 def read_from_file_IMAGE(filepath):
     img = Image.open(filepath).convert("RGB")
 
-    show_image(img)
+    show_image(img, False)
 
     img = np.array(img)
     img_shape = img.shape
@@ -127,7 +130,7 @@ def read_from_file_IMAGE(filepath):
 
 
 # given a vector array, binary mask, and original img shape converts vector array back to an image representation
-def show_ndarray_as_IMAGE(ndarray, len_mask, img_shape):
+def show_ndarray_as_IMAGE(ndarray, len_mask, img_shape, show_block):
     # flatten Nx12 array into 1D
     ndarray = flatten_vector_array(ndarray)
 
@@ -143,7 +146,7 @@ def show_ndarray_as_IMAGE(ndarray, len_mask, img_shape):
     # reshape into image data structure
     img = np.reshape(val_buff, img_shape)
 
-    show_image(img)
+    show_image(img, show_block)
 
 
 # MODE TFT read and write
@@ -203,7 +206,7 @@ def read_from_file_VECTOR(filepath, vector_length):
 
     # cast char 1s and 0s to ints and reshape to vectors of length 12
     vector_buff = string_to_int_array(vector_buff)
-    vector_buff = np.reshape(vector_buff, (-1, 12))
+    vector_buff = np.reshape(vector_buff, (-1, vector_length))
 
     return vector_buff
 
@@ -211,6 +214,6 @@ def read_from_file_VECTOR(filepath, vector_length):
 # given a vector array and filepath writes the vector array as a single vector to filepath
 def write_ndarray_to_file_VECTOR(ndarray, filepath):
     ndarray = flatten_vector_array(ndarray)
-    arraystring = char_array_to_string(ndarray.astype(str))
+    arraystring = char_array_to_string(ndarray.astype(int).astype(str))
 
     write_string_to_file(filepath, arraystring)
