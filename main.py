@@ -12,17 +12,14 @@ parser.add_argument(
     'mode', choices=["BFT", "TFT", "IFB"], help="BFT = BinaryFromTxt: mode processes binary vector of 12 multitude length from txt file. TFT = TextFromTxt: mode processes some text from txt file. IFB = ImageFromBmp mode processes a bmp format image.")
 parser.add_argument("distortion_p", type=int,
                     help="Chance to distort a bit at every position in the vector in percents (should be provided as a number 0-100).")
-parser.add_argument("-out", "--outputPath", type=str,
+parser.add_argument("-out", "--outputPath", type=str, default="",
                     help="Path where output files will be created. If none, output file will be created in the same directory as the script is ran")
 args = parser.parse_args()
 
 inputFile = args.inputFile
 mode = args.mode
 p = args.distortion_p
-if args.outputPath:
-    outputPath = args.outputPath
-else:
-    outputPath = ""
+outputPath = args.outputPath
 
 
 # read input based on mode used (binaryFromTxt outputs more details to console)
