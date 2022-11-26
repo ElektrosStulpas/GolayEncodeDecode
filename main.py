@@ -12,21 +12,27 @@ parser.add_argument(
     'mode', choices=["BFT", "TFT", "IFB"], help="BFT = BinaryFromTxt: mode processes binary vector of 12 multitude length from txt file. TFT = TextFromTxt: mode processes some text from txt file. IFB = ImageFromBmp mode processes a bmp format image.")
 parser.add_argument("distortion_p", type=int,
                     help="Chance to distort a bit at every position in the vector in percents (should be provided as a number 0-100).")
+parser.add_argument("-out", "--outputPath", type=str,
+                    help="Path where output files will be created. If none, output file will be created in the same directory as the script is ran")
 args = parser.parse_args()
 
-inputPath = args.inputFile
+inputFile = args.inputFile
 mode = args.mode
 p = args.distortion_p
+if args.outputPath:
+    outputPath = args.outputPath
+else:
+    outputPath = ""
 
 
 # read input based on mode used (binaryFromTxt outputs more details to console)
 if mode == 'BFT':
-    input_vector_array = read_from_file_VECTOR(inputPath, 12)
+    input_vector_array = read_from_file_VECTOR(inputFile, 12)
     print("Input vectors:")
     print_ndarray(input_vector_array)
 
 elif mode == 'TFT':
-    input_vector_array, char_mask = read_from_file_TEXT(inputPath)
+    input_vector_array, char_mask = read_from_file_TEXT(inputFile)
 
     # distortion first without encoding
     distorted_vector_array, _ = distort_vector_array(
@@ -34,10 +40,10 @@ elif mode == 'TFT':
 
     # pass the distorted vector to be converted to text and written to file
     write_ndarray_to_file_TEXT(
-        distorted_vector_array, char_mask, "distorted_output_text.txt")
+        distorted_vector_array, char_mask, outputPath + "distorted_output_text.txt")
 
 elif mode == 'IFB':
-    input_vector_array, len_mask, img_shape = read_from_file_IMAGE(inputPath)
+    input_vector_array, len_mask, img_shape = read_from_file_IMAGE(inputFile)
 
     # distortion first without encoding
     distorted_vector_array, _ = distort_vector_array(
@@ -71,7 +77,7 @@ if mode == 'BFT':
     print(error_info)
     # we also write the distorted vectors to file in case we want to edit it before decoding
     write_ndarray_to_file_VECTOR(
-        distorted_vector_array, "distorted_output_vector.txt")
+        distorted_vector_array, outputPath + "distorted_output_vector.txt")
 
 
 # if binaryFromTxt mode, then give a checkpoint to edit distorted output and read the edited distorted output
@@ -79,7 +85,7 @@ if mode == 'BFT':
     input(
         'Please hit enter when the "distorted_output_vector.txt" file is reviewed: ')
     distorted_vector_array = read_from_file_VECTOR(
-        "distorted_output_vector.txt", 23)
+        outputPath + "distorted_output_vector.txt", 23)
 
 
 # decode vectors and present results after decoding
@@ -93,9 +99,9 @@ if mode == 'BFT':
     print("Decoded vectors:")
     print_ndarray(decoded_vector_array)
     write_ndarray_to_file_VECTOR(
-        decoded_vector_array, "decoded_output_vector.txt")
+        decoded_vector_array, outputPath + "decoded_output_vector.txt")
 elif mode == 'TFT':
     write_ndarray_to_file_TEXT(
-        decoded_vector_array, char_mask, "decoded_output_text.txt")
+        decoded_vector_array, char_mask, outputPath + "decoded_output_text.txt")
 elif mode == 'IFB':
     show_ndarray_as_IMAGE(decoded_vector_array, len_mask, img_shape, True)
