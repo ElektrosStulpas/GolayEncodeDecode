@@ -10,7 +10,7 @@ def distort_array(vector, p):
     for idx in range(len(vector)):
         current_val = vector[idx]
 
-        if random.randint(0, 100) < p:
+        if random.randint(1, 100) <= p:
             new_val = (current_val + 1) % 2
             error_count += 1
             error_buff.append(idx)

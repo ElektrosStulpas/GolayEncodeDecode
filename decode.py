@@ -77,4 +77,6 @@ def decode_vector_array(distorted_vector_array):
     distorted_vector_array_C24 = convert_vector_array_to_C24(
         distorted_vector_array)
 
-    return decode_C24_to_C23(distorted_vector_array_C24)
+    decoded_vector_array = decode_C24_to_C23(distorted_vector_array_C24)
+
+    return decoded_vector_array
