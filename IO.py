@@ -99,7 +99,7 @@ def bin_array_to_int(array):
     return int(dec_num)
 
 
-# MODE IFB read and write
+# MODE IFB read and show
 
 # reads from a bmp format image, converts it to binary int vector array
 # additionally returns length mask to separate binary values and img_shape to know into what reshape when converting back to an image

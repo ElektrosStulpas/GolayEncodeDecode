@@ -59,7 +59,7 @@ if mode == 'BFT':
     print_ndarray(encoded_vector_array)
 
 
-# send through distortion channel and output to file
+# send encoded data through distortion channel
 print("Sending through distortion channel..")
 distorted_vector_array, error_info = distort_vector_array(
     encoded_vector_array, p)
@@ -85,7 +85,7 @@ if mode == 'BFT':
         outputPath + "distorted_output_vector.txt", 23)
 
 
-# decode vectors and present results after decoding
+# decode vectors
 print("Decoding..")
 decoded_vector_array = decode_vector_array(distorted_vector_array)
 print("Decoding complete..")
