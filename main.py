@@ -10,8 +10,8 @@ parser.add_argument("inputFile", type=str,
                     help="Input file path. File containing binary vector of 12 multitude length, text, or a picture in bmp format.")
 parser.add_argument(
     'mode', choices=["BFT", "TFT", "IFB"], help="BFT = BinaryFromTxt: mode processes binary vector of 12 multitude length from txt file. TFT = TextFromTxt: mode processes some text from txt file. IFB = ImageFromBmp mode processes a bmp format image.")
-parser.add_argument("distortion_p", type=int,
-                    help="Chance to distort a bit at every position in the vector in percents (should be provided as a number 0-100).")
+parser.add_argument("distortion_p", type=float,
+                    help="Chance to distort a bit at every position in the vector in percents (should be provided as a number 0.00-100.00).")
 parser.add_argument("-out", "--outputPath", type=str, default="",
                     help="Path where output files will be created. If none, output file will be created in the same directory as the script is ran")
 args = parser.parse_args()
